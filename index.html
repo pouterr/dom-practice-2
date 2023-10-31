@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+</head>
+<body>
+    <h1>Registration Form</h1>
+    <form id="registrationForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required>
+        <div class="error" id="usernameError"></div>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="Password" required>
+        <div class="error" id="passwordError"></div>
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+        <div class="error" id="confirmPasswordError"></div>
+
+        <button id="registerButton" type="submit" disabled>Register</button>
+        <div id="registrationMessage"></div>
+    </form>
+
+    <script>
+        const usernameInput = document.getElementById("username");
+        const passwordInput = document.getElementById("password");
+        const confirmPasswordInput = document.getElementById("confirmPassword");
+        const registerButton = document.getElementById("registerButton");
+        const usernameError = document.getElementById("usernameError");
+        const passwordError = document.getElementById("passwordError");
+        const confirmPasswordError = document.getElementById("confirmPasswordError");
+        const registrationMessage = document.getElementById("registrationMessage");
+
+        function passwordsMatch() {
+            return passwordInput.value === confirmPasswordInput.value;
+        }
+
+        function toggleRegisterButton() {
+            if (usernameInput.validity.valid && passwordInput.validity.valid && confirmPasswordInput.validity.valid && passwordsMatch()) {
+                registerButton.disabled = false;
+            } else {
+                registerButton.disabled = true;
+            }
+        }
+
+        usernameInput.addEventListener("input", function () {
+            if (usernameInput.validity.valid) {
+                usernameError.textContent = "";
+            } else {
+                usernameError.textContent = "Please enter a username.";
+            }
+            toggleRegisterButton();
+        });
+
+        passwordInput.addEventListener("input", function () {
+            if (passwordInput.validity.valid) {
+                passwordError.textContent = "";
+            } else {
+                passwordError.textContent = "Please enter a password.";
+            }
+            toggleRegisterButton();
+            if (!passwordsMatch()) {
+                confirmPasswordError.textContent = "Passwords do not match.";
+            } else {
+                confirmPasswordError.textContent = "";
+            }
+        });
+
+        confirmPasswordInput.addEventListener("input", function () {
+            if (confirmPasswordInput.validity.valid) {
+                confirmPasswordError.textContent = "";
+            } else {
+                confirmPasswordError.textContent = "Please confirm your password.";
+            }
+            toggleRegisterButton();
+            if (!passwordsMatch()) {
+                confirmPasswordError.textContent = "Passwords do not match.";
+            } else {
+                confirmPasswordError.textContent = "";
+            }
+        });
+
+        document.getElementById("registrationForm").addEventListener("submit", function (e) {
+            e.preventDefault(); 
+            if (passwordsMatch()) {
+                registrationMessage.textContent = "Registration successful!";
+            }
+        });
+    </script>
+</body>
+</html>
